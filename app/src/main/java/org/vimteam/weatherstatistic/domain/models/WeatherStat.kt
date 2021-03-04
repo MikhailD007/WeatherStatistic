@@ -1,7 +1,10 @@
 package org.vimteam.weatherstatistic.domain.models
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 
+@Parcelize
 data class WeatherStat(
     val date: Date,
     val city: City,
@@ -20,4 +23,4 @@ data class WeatherStat(
     val windGust: Int,
     val weatherType: String,
     val conditions: String
-)
+): Parcelable

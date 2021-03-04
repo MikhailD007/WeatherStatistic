@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Weather Statistic</string>
+    <string name="city">City</string>
+    <string name="search_place">Search place for weather statistic</string>
+    <string name="dateFrom">From date</string>
+    <string name="dateTo">To date</string>
+    <string name="request_statistic">Request statistic</string>
 </resources>
