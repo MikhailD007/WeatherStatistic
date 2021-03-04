@@ -16,5 +16,10 @@
     <fragment
         android:id="@+id/weatherStatFragment"
         android:name="org.vimteam.weatherstatistic.ui.fragments.WeatherStatFragment"
-        android:label="WeatherStatFragment" />
+        android:label="WeatherStatFragment"
+        tools:layout="@layout/fragment_stat_result">
+        <argument
+            android:name="requestHistory"
+            app:argType="org.vimteam.weatherstatistic.domain.models.RequestHistory" />
+    </fragment>
 </navigation>
