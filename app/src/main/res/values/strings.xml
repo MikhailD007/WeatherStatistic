@@ -5,4 +5,7 @@
     <string name="dateFrom">From date</string>
     <string name="dateTo">To date</string>
     <string name="request_statistic">Request statistic</string>
+
+    <string name="weather_api_key" translatable="false">MU1Q3QAYQLGX4RJ4DRVQQU4WL</string>
+    <string name="temperature">Temperature</string>
 </resources>

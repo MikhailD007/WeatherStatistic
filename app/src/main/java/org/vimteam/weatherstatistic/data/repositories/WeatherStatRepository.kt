@@ -1,7 +1,9 @@
 package org.vimteam.weatherstatistic.data.repositories
 
+import org.joda.time.LocalDate
 import org.vimteam.weatherstatistic.data.interfaces.ApiContract
 import org.vimteam.weatherstatistic.data.interfaces.DatabaseContract
+import org.vimteam.weatherstatistic.data.mappers.WeatherMapper
 import org.vimteam.weatherstatistic.domain.contracts.WeatherStatRepositoryContract
 import org.vimteam.weatherstatistic.domain.models.City
 import org.vimteam.weatherstatistic.domain.models.RequestHistory
@@ -10,21 +12,21 @@ import java.lang.Thread.sleep
 import java.sql.Date
 
 class WeatherStatRepository(
-    api: ApiContract,
-    db: DatabaseContract
+    val api: ApiContract,
+    val db: DatabaseContract
 ) : WeatherStatRepositoryContract {
 
     override fun getRequestsHistoryList(func: (ArrayList<RequestHistory>) -> Unit) {
         Thread {
-            sleep(3000)
+            sleep(100)
             val dumbCity1 = City("123", "Камышин", 51.1354, 46.358)
             val weatherStatList1 = ArrayList<WeatherStat>()
             weatherStatList1.add(
                 WeatherStat(
-                    date = Date(1262304000000),
+                    date = LocalDate(1262304000000),
                     city = dumbCity1,
-                    minTemperature = -5,
-                    maxTemperature = 10,
+                    minTemperature = -5.0F,
+                    maxTemperature = 10.0F,
                     windChillTemperature = -8,
                     heatIndexTemperature = 0,
                     cloudCover = 65,
@@ -42,10 +44,10 @@ class WeatherStatRepository(
             )
             weatherStatList1.add(
                 WeatherStat(
-                    date = Date(1614816000000),
+                    date = LocalDate(1614816000000),
                     city = dumbCity1,
-                    minTemperature = -3,
-                    maxTemperature = 0,
+                    minTemperature = -3.0F,
+                    maxTemperature = 0.0F,
                     windChillTemperature = -5,
                     heatIndexTemperature = 0,
                     cloudCover = 30,
@@ -72,10 +74,10 @@ class WeatherStatRepository(
             val weatherStatList2 = ArrayList<WeatherStat>()
             weatherStatList2.add(
                 WeatherStat(
-                    date = Date(1262304000000),
+                    date = LocalDate(1262304000000),
                     city = dumbCity1,
-                    minTemperature = -5,
-                    maxTemperature = 10,
+                    minTemperature = -5.0F,
+                    maxTemperature = 10.0F,
                     windChillTemperature = -8,
                     heatIndexTemperature = 0,
                     cloudCover = 65,
@@ -93,10 +95,10 @@ class WeatherStatRepository(
             )
             weatherStatList1.add(
                 WeatherStat(
-                    date = Date(1614816000000),
+                    date = LocalDate(1614816000000),
                     city = dumbCity1,
-                    minTemperature = -3,
-                    maxTemperature = 0,
+                    minTemperature = -3.0F,
+                    maxTemperature = 0.0F,
                     windChillTemperature = -5,
                     heatIndexTemperature = 0,
                     cloudCover = 30,
@@ -125,6 +127,20 @@ class WeatherStatRepository(
             resultList.add(dumbRequestHistory2)
             func.invoke(resultList)
         }.start()
+    }
+
+    override suspend fun getWeatherData(
+        place: String,
+        dateFrom: LocalDate,
+        dateTo: LocalDate
+    ): ArrayList<WeatherStat> {
+        return WeatherMapper.locationDataToWeatherStatList(
+            api.getWeatherData(
+                locations = place,
+                startDateTime = dateFrom.toString(),
+                endDateTime = dateTo.toString()
+            ).location
+        ) as ArrayList<WeatherStat>
     }
 
 }

@@ -71,6 +71,14 @@ class StatQueryFragment : Fragment(), RequestsHistoryAdapter.OnItemClickListener
             renderView(it)
         }
         statQueryViewModel.getRequestsHistoryList()
+        binding.searchPlaceEditText.setText("Saratov")
+        binding.requestStatisticMaterialButton.setOnClickListener {
+            statQueryViewModel.getWeatherData(
+                binding.searchPlaceEditText.text.toString().trim(),
+                binding.dateFromEditText.tag as LocalDate,
+                binding.dateToEditText.tag as LocalDate
+            )
+        }
     }
 
     private fun initDateTimePicker(
@@ -82,7 +90,7 @@ class StatQueryFragment : Fragment(), RequestsHistoryAdapter.OnItemClickListener
             DatePickerDialog.newInstance { _, year, monthOfYear, dayOfMonth ->
                 val date = LocalDate(year, monthOfYear + 1, dayOfMonth)
                 editText.setText(date.toString())
-                editText.tag = date.toDateTimeAtStartOfDay().millis
+                editText.tag = date
                 layout.error = null
             }
         datePickerDialog.showYearPickerFirst(false)

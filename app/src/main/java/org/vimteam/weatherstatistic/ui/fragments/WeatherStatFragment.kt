@@ -14,7 +14,7 @@ class WeatherStatFragment : Fragment() {
     private var _binding: FragmentStatResultBinding? = null
     private val binding get() = _binding!!
 
-    val args: WeatherStatFragmentArgs by navArgs()
+    private val args: WeatherStatFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,9 +32,11 @@ class WeatherStatFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val requestHistory = args.requestHistory
+        val requestHistory = args.requestHistory.also {
+
+        }
         if (requestHistory != null) {
-            binding.dumbTextView.text = requestHistory.city.name + "\n" + requestHistory.dateFrom + " - " + requestHistory.dateTo
+            //binding.dumbTextView.text = requestHistory.city.name + "\n" + requestHistory.dateFrom + " - " + requestHistory.dateTo
         }
     }
 
