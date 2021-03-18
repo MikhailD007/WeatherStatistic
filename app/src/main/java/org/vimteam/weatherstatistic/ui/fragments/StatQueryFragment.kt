@@ -51,7 +51,7 @@ class StatQueryFragment : Fragment(), RequestsHistoryAdapter.OnItemClickListener
     }
 
     override fun onItemClick(requestHistory: RequestHistory) {
-        val action = StatQueryFragmentDirections.actionStatQueryFragmentToWeatherStatFragment(requestHistory)
+        val action = StatQueryFragmentDirections.actionStatQueryFragmentToWeatherStatFragmentFromHistory(requestHistory)
         requireView().findNavController().navigate(action)
     }
 
@@ -73,11 +73,13 @@ class StatQueryFragment : Fragment(), RequestsHistoryAdapter.OnItemClickListener
         statQueryViewModel.getRequestsHistoryList()
         binding.searchPlaceEditText.setText("Saratov")
         binding.requestStatisticMaterialButton.setOnClickListener {
-            statQueryViewModel.getWeatherData(
-                binding.searchPlaceEditText.text.toString().trim(),
-                binding.dateFromEditText.tag as LocalDate,
-                binding.dateToEditText.tag as LocalDate
-            )
+            val action = StatQueryFragmentDirections.actionStatQueryFragmentToWeatherStatFragmentFromApi(null)
+            requireView().findNavController().navigate(action)
+//            statQueryViewModel.getWeatherData(
+//                binding.searchPlaceEditText.text.toString().trim(),
+//                binding.dateFromEditText.tag as LocalDate,
+//                binding.dateToEditText.tag as LocalDate
+//            )
         }
     }
 
@@ -114,7 +116,7 @@ class StatQueryFragment : Fragment(), RequestsHistoryAdapter.OnItemClickListener
             is StatQueryState.Error -> {
                 (activity as LoadState).setLoadState(false)
                 Snackbar
-                    .make(requireView(), state.error.localizedMessage, Snackbar.LENGTH_LONG)
+                    .make(requireView(), state.error.toString(), Snackbar.LENGTH_LONG)
                     .show()
             }
         }

@@ -10,6 +10,6 @@ interface WeatherStatRepositoryContract {
     fun getRequestsHistoryList(func: (ArrayList<RequestHistory>) -> Unit)
 
     @Throws(Exception::class)
-    suspend fun getWeatherData(place: String, dateFrom: LocalDate, dateTo: LocalDate): ArrayList<WeatherStat>
+    suspend fun getWeatherData(place: String, dateFrom: LocalDate, dateTo: LocalDate, func: (ArrayList<WeatherStat>) -> Unit)
 
 }

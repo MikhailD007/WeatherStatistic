@@ -7,6 +7,7 @@ import org.joda.time.LocalDate
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import org.koin.experimental.builder.singleBy
+import org.vimteam.weatherstatistic.base.ConnectivityListener
 import org.vimteam.weatherstatistic.data.converters.LocalDateConverter
 import org.vimteam.weatherstatistic.data.database.LocalDatabase
 import org.vimteam.weatherstatistic.data.interfaces.ApiContract
@@ -57,6 +58,7 @@ object MainModule {
         singleBy <DatabaseContract, LocalDatabase>()
         single { provideRetrofit() }
         single { provideWeatherApi(get()) }
+        single { ConnectivityListener(get()) }
         
         factory<WeatherStatRepositoryContract> { WeatherStatRepository(get(), get()) }
         viewModel<StatQueryContract.ViewModel> { StatQueryViewModel(get(), get()) }

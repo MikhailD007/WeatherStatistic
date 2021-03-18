@@ -6,8 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.vimteam.weatherstatistic.databinding.FragmentStatResultBinding
-import org.vimteam.weatherstatistic.domain.models.RequestHistory
+import org.vimteam.weatherstatistic.domain.contracts.WeatherStatContract
+import org.vimteam.weatherstatistic.domain.models.WeatherStatState
+import org.vimteam.weatherstatistic.ui.interfaces.LoadState
 
 class WeatherStatFragment : Fragment() {
 
@@ -16,9 +20,7 @@ class WeatherStatFragment : Fragment() {
 
     private val args: WeatherStatFragmentArgs by navArgs()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private val weatherStatViewModel by viewModel<WeatherStatContract.ViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,17 +34,43 @@ class WeatherStatFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val requestHistory = args.requestHistory.also {
-
-        }
+        initView()
+        val requestHistory = args.requestHistory
         if (requestHistory != null) {
-            //binding.dumbTextView.text = requestHistory.city.name + "\n" + requestHistory.dateFrom + " - " + requestHistory.dateTo
+            binding.placeNameTextView.text = requestHistory.city.name
+            binding.periodTextView.text = "${requestHistory.dateFrom} - ${requestHistory.dateTo}"
+        } else {
+            binding.placeNameTextView.text = "New request to API"
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun initView() {
+        weatherStatViewModel.weatherStatState.observe(viewLifecycleOwner) {
+            renderView(it)
+        }
+    }
+
+    private fun renderView(state: WeatherStatState) {
+        when (state) {
+            is WeatherStatState.Success -> {
+                //TODO fill view with data
+                (activity as LoadState).setLoadState(false)
+            }
+            is WeatherStatState.Error -> {
+                (activity as LoadState).setLoadState(false)
+                Snackbar
+                    .make(requireView(), state.error.toString(), Snackbar.LENGTH_LONG)
+                    .show()
+            }
+            is WeatherStatState.Loading -> {
+                (activity as LoadState).setLoadState(true)
+            }
+        }
     }
 
 }

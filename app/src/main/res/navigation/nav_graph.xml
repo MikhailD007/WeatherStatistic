@@ -10,7 +10,10 @@
         android:label="StatQueryFragment"
         tools:layout="@layout/fragment_stat_query">
         <action
-            android:id="@+id/action_statQueryFragment_to_weatherStatFragment"
+            android:id="@+id/action_statQueryFragment_to_weatherStatFragment_from_history"
+            app:destination="@id/weatherStatFragment" />
+        <action
+            android:id="@+id/action_statQueryFragment_to_weatherStatFragment_from_api"
             app:destination="@id/weatherStatFragment" />
     </fragment>
     <fragment
@@ -20,6 +23,7 @@
         tools:layout="@layout/fragment_stat_result">
         <argument
             android:name="requestHistory"
-            app:argType="org.vimteam.weatherstatistic.domain.models.RequestHistory" />
+            app:argType="org.vimteam.weatherstatistic.domain.models.RequestHistory"
+            app:nullable="true" />
     </fragment>
 </navigation>

@@ -31,8 +31,9 @@ class StatQueryViewModel(
 
     override fun getWeatherData(place: String, dateFrom: LocalDate, dateTo: LocalDate) {
         viewModelScope.launch {
-            val res = repo.getWeatherData(place, dateFrom, dateTo)
-            val a=1
+            repo.getWeatherData(place, dateFrom, dateTo) {
+                val a = it
+            }
         }
 
     }

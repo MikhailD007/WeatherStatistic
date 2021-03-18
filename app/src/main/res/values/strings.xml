@@ -8,4 +8,6 @@
 
     <string name="weather_api_key" translatable="false">MU1Q3QAYQLGX4RJ4DRVQQU4WL</string>
     <string name="temperature">Temperature</string>
+    <string name="network_available">Network is available</string>
+    <string name="network_unavailable">Network is unavailable</string>
 </resources>

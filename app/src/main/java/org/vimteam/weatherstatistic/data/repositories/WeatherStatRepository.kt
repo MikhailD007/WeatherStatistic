@@ -132,15 +132,16 @@ class WeatherStatRepository(
     override suspend fun getWeatherData(
         place: String,
         dateFrom: LocalDate,
-        dateTo: LocalDate
-    ): ArrayList<WeatherStat> {
-        return WeatherMapper.locationDataToWeatherStatList(
+        dateTo: LocalDate,
+        func: (ArrayList<WeatherStat>) -> Unit
+    ) {
+        func.invoke(WeatherMapper.locationDataToWeatherStatList(
             api.getWeatherData(
                 locations = place,
                 startDateTime = dateFrom.toString(),
                 endDateTime = dateTo.toString()
             ).location
-        ) as ArrayList<WeatherStat>
+        ) as ArrayList<WeatherStat>)
     }
 
 }
