@@ -23,7 +23,6 @@
         tools:layout="@layout/fragment_stat_result">
         <argument
             android:name="requestHistory"
-            app:argType="org.vimteam.weatherstatistic.domain.models.RequestHistory"
-            app:nullable="true" />
+            app:argType="org.vimteam.weatherstatistic.domain.models.RequestHistory" />
     </fragment>
 </navigation>

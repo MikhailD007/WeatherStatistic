@@ -8,10 +8,14 @@ interface StatQueryContract {
 
     abstract class ViewModel : androidx.lifecycle.ViewModel() {
         abstract val statQueryState: LiveData<StatQueryState>
+        abstract val dateFrom: LiveData<LocalDate>
+        abstract val dateTo: LiveData<LocalDate>
 
         abstract fun getRequestsHistoryList()
 
-        abstract fun getWeatherData(place: String, dateFrom: LocalDate, dateTo: LocalDate)
+        abstract fun setDateFrom(date: LocalDate)
+
+        abstract fun setDateTo(date: LocalDate)
 
     }
 }

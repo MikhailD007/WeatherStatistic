@@ -10,4 +10,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="white_semitransparent">#B2FFFFFF</color>
     <color name="black_semitransparent">#B2000000</color>
+
+    <color name="blue_light">#03A9F4</color>
+    <color name="red_light">#E57373</color>
 </resources>

@@ -37,8 +37,9 @@
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/temperatureBarChart"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/temperatureChartLabel" />
+        app:layout_constraintTop_toBottomOf="@id/temperatureChartLabel"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

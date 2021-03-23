@@ -17,6 +17,8 @@ class StatQueryViewModel(
 ) : StatQueryContract.ViewModel() {
 
     override val statQueryState = MutableLiveData<StatQueryState>()
+    override val dateFrom = MutableLiveData<LocalDate>()
+    override val dateTo = MutableLiveData<LocalDate>()
 
     override fun getRequestsHistoryList() {
         statQueryState.value = StatQueryState.Loading
@@ -29,14 +31,12 @@ class StatQueryViewModel(
         }
     }
 
-    override fun getWeatherData(place: String, dateFrom: LocalDate, dateTo: LocalDate) {
-        viewModelScope.launch {
-            repo.getWeatherData(place, dateFrom, dateTo) {
-                val a = it
-            }
-        }
-
+    override fun setDateFrom(date: LocalDate) {
+        dateFrom.value = date
     }
 
+    override fun setDateTo(date: LocalDate) {
+        dateTo.value = date
+    }
 
 }

@@ -7,6 +7,11 @@ import org.koin.core.context.startKoin
 
 class App : MultiDexApplication() {
 
+    companion object {
+        const val HISTORY_YEARS = 3
+        const val MAX_DAYS = 3
+    }
+
     override fun onCreate() {
         super.onCreate()
         val crashlitics = FirebaseCrashlytics.getInstance()

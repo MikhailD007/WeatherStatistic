@@ -1,14 +1,12 @@
 package org.vimteam.weatherstatistic.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import org.koin.android.ext.android.bind
 import org.koin.android.ext.android.inject
 import org.vimteam.weatherstatistic.R
 import org.vimteam.weatherstatistic.base.ConnectivityListener
@@ -19,7 +17,7 @@ class SingleActivity : AppCompatActivity(), LoadState {
 
     private lateinit var binding: ActivitySingleBinding
 
-    val connectivityListener: ConnectivityListener by inject()
+    private val connectivityListener: ConnectivityListener by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

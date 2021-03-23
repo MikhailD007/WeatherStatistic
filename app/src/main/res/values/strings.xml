@@ -5,9 +5,16 @@
     <string name="dateFrom">From date</string>
     <string name="dateTo">To date</string>
     <string name="request_statistic">Request statistic</string>
+    <string name="obligatory_field">This is obligatory field</string>
 
     <string name="weather_api_key" translatable="false">MU1Q3QAYQLGX4RJ4DRVQQU4WL</string>
     <string name="temperature">Temperature</string>
     <string name="network_available">Network is available</string>
     <string name="network_unavailable">Network is unavailable</string>
+    <string name="wrong_date">Wrong date</string>
+    <string name="period_restraints">Request period is restrained by %1$d days</string>
+    <string name="dateFrom_later_dateTo">Date From is later than date To</string>
+    <string name="min_temperature">Min temperature</string>
+    <string name="max_temperature">Max temperature</string>
+    <string name="future_date">Cannot request historical data for future dates</string>
 </resources>

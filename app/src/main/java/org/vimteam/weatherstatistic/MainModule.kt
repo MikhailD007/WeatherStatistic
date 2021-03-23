@@ -8,6 +8,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import org.koin.experimental.builder.singleBy
 import org.vimteam.weatherstatistic.base.ConnectivityListener
+import org.vimteam.weatherstatistic.data.api.interceptors.VisualcrossingInterceptor
 import org.vimteam.weatherstatistic.data.converters.LocalDateConverter
 import org.vimteam.weatherstatistic.data.database.LocalDatabase
 import org.vimteam.weatherstatistic.data.interfaces.ApiContract
@@ -17,6 +18,7 @@ import org.vimteam.weatherstatistic.domain.contracts.*
 import org.vimteam.weatherstatistic.domain.viewmodels.StatQueryViewModel
 import org.vimteam.weatherstatistic.domain.viewmodels.WeatherDetailsViewModel
 import org.vimteam.weatherstatistic.domain.viewmodels.WeatherStatViewModel
+import org.vimteam.weatherstatistic.ui.NetworkService
 import org.vimteam.weatherstatistic.ui.providers.ResourcesProvider
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -32,6 +34,7 @@ object MainModule {
                     httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
                 }
             okHttpClientBuilder.addInterceptor(loggingInterceptor)
+            okHttpClientBuilder.addInterceptor(VisualcrossingInterceptor())
             val client = okHttpClientBuilder.build()
 
             return Retrofit.Builder()
@@ -59,10 +62,10 @@ object MainModule {
         single { provideRetrofit() }
         single { provideWeatherApi(get()) }
         single { ConnectivityListener(get()) }
-        
+
         factory<WeatherStatRepositoryContract> { WeatherStatRepository(get(), get()) }
         viewModel<StatQueryContract.ViewModel> { StatQueryViewModel(get(), get()) }
-        viewModel<WeatherStatContract.ViewModel> { WeatherStatViewModel(get()) }
+        viewModel<WeatherStatContract.ViewModel> { WeatherStatViewModel(get(), get()) }
         viewModel<WeatherDetailsContract.ViewModel> { WeatherDetailsViewModel(get()) }
 
     }

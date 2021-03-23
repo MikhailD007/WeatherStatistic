@@ -1,6 +1,7 @@
 package org.vimteam.weatherstatistic.data.repositories
 
 import org.joda.time.LocalDate
+import org.vimteam.weatherstatistic.App
 import org.vimteam.weatherstatistic.data.interfaces.ApiContract
 import org.vimteam.weatherstatistic.data.interfaces.DatabaseContract
 import org.vimteam.weatherstatistic.data.mappers.WeatherMapper
@@ -135,13 +136,20 @@ class WeatherStatRepository(
         dateTo: LocalDate,
         func: (ArrayList<WeatherStat>) -> Unit
     ) {
-        func.invoke(WeatherMapper.locationDataToWeatherStatList(
-            api.getWeatherData(
-                locations = place,
-                startDateTime = dateFrom.toString(),
-                endDateTime = dateTo.toString()
-            ).location
-        ) as ArrayList<WeatherStat>)
+        val weatherStat: ArrayList<WeatherStat> = ArrayList()
+        for (i in App.HISTORY_YEARS - 1 downTo 0) {
+            weatherStat.addAll(
+                WeatherMapper.locationDataToWeatherStatList(
+                    api.getWeatherData(
+                        locations = place,
+                        startDateTime = dateFrom.minusYears(i).toString(),
+                        endDateTime = dateTo.minusYears(i).toString()
+                    ).location
+                ) as ArrayList<WeatherStat>
+            )
+            sleep(100)
+        }
+        func.invoke(weatherStat)
     }
 
 }

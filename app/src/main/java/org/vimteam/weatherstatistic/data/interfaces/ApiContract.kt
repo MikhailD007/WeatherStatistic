@@ -1,8 +1,8 @@
 package org.vimteam.weatherstatistic.data.interfaces
 
 import org.vimteam.weatherstatistic.data.models.WeatherDataResponse
-import retrofit2.HttpException
-import retrofit2.http.*
+import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface ApiContract {
 
@@ -21,31 +21,5 @@ interface ApiContract {
         @Query("dataElements") dataElements: String = "default",
         @Query("locations") locations: String,
     ): WeatherDataResponse
-
-// https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/history
-// ?
-// aggregateHours=24
-// &
-// combinationMethod=aggregate
-// &
-// startDateTime=2021-03-09T00%3A00%3A00
-// &
-// endDateTime=2021-03-16T00%3A00%3A00
-// &
-// maxStations=-1
-// &
-// maxDistance=-1
-// &
-// contentType=json
-// &
-// unitGroup=metric
-// &
-// locationMode=single
-// &
-// key=MU1Q3QAYQLGX4RJ4DRVQQU4WL
-// &
-// dataElements=default
-// &
-// locations=Saratov
 
 }
