@@ -1,5 +1,6 @@
 package org.vimteam.weatherstatistic.ui.fragments
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -11,6 +12,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import coil.api.load
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis.XAxisPosition
 import com.github.mikephil.charting.data.BarData
@@ -44,7 +46,7 @@ class WeatherStatFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentStatResultBinding.inflate(inflater, container, false)
         return binding.root
 
@@ -70,6 +72,7 @@ class WeatherStatFragment : Fragment() {
         _binding = null
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initView(requestHistory: RequestHistory) {
         weatherStatViewModel.weatherStatState.observe(viewLifecycleOwner) {
             renderView(it)
@@ -90,9 +93,11 @@ class WeatherStatFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun renderView(state: WeatherStatState) {
         when (state) {
             is WeatherStatState.Success -> {
+                binding.headerImageView.load(getString(R.string.city_picture))
                 val minTemperatureValues: ArrayList<BarEntry> = ArrayList()
                 val maxTemperatureValues: ArrayList<BarEntry> = ArrayList()
                 for (weatherStat in state.requestData) {
@@ -148,12 +153,15 @@ class WeatherStatFragment : Fragment() {
                 (activity as LoadState).setLoadState(false)
             }
             is WeatherStatState.Error -> {
+                binding.headerImageView.load(getString(R.string.failed_picture))
+
                 (activity as LoadState).setLoadState(false)
                 Snackbar
                     .make(requireView(), state.error.message.toString(), Snackbar.LENGTH_LONG)
                     .show()
             }
             is WeatherStatState.Loading -> {
+                binding.headerImageView.load(getString(R.string.loading_picture))
                 (activity as LoadState).setLoadState(true)
             }
         }

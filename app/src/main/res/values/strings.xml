@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Weather Statistic</string>
     <string name="city">City</string>
     <string name="search_place">Search place for weather statistic</string>
@@ -24,4 +24,7 @@
     <string name="collecting_data_from_server">Collecting data from server…</string>
     <string name="request_params">Parameters:\n%1$s\n%2$s-%3$s</string>
     <string name="request_to_server_in_progress">Request to server in progress…</string>
+    <string name="city_picture" tools:ignore="TypographyDashes">https://freepngimg.com/thumb/save_electricity/33173-4-save-electricity-picture.png</string>
+    <string name="loading_picture" tools:ignore="TypographyDashes">https://freepngimg.com/thumb/cloud_server/8-2-cloud-server-transparent.png</string>
+    <string name="failed_picture" tools:ignore="TypographyDashes">https://freepngimg.com/thumb/fail_stamp/5-2-fail-stamp-png-image.png</string>
 </resources>
