@@ -17,4 +17,11 @@
     <string name="min_temperature">Min temperature</string>
     <string name="max_temperature">Max temperature</string>
     <string name="future_date">Cannot request historical data for future dates</string>
+    <string name="idle_state">Waiting for a task</string>
+    <string name="service_name">Weather history service</string>
+    <string name="service_description">Weather history data collect service</string>
+    <string name="exchange_error">Error weather history data collection: %1$s</string>
+    <string name="collecting_data_from_server">Collecting data from server…</string>
+    <string name="request_params">Parameters:\n%1$s\n%2$s-%3$s</string>
+    <string name="request_to_server_in_progress">Request to server in progress…</string>
 </resources>

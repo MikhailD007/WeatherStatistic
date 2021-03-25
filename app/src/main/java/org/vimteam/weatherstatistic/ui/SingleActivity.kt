@@ -1,6 +1,9 @@
 package org.vimteam.weatherstatistic.ui
 
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +21,8 @@ class SingleActivity : AppCompatActivity(), LoadState {
     private lateinit var binding: ActivitySingleBinding
 
     private val connectivityListener: ConnectivityListener by inject()
+
+    private val networkService: NetworkService by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,5 +42,21 @@ class SingleActivity : AppCompatActivity(), LoadState {
 
     override fun setLoadState(state: Boolean) {
         binding.loadingFrameLayout.visibility = if (state) View.VISIBLE else View.GONE
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val intentExchange = Intent(this, NetworkService::class.java)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(intentExchange)
+        } else {
+            startService(intentExchange)
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        val intentExchange = Intent(this, NetworkService::class.java)
+        stopService(intentExchange)
     }
 }

@@ -127,6 +127,7 @@ class StatQueryFragment : Fragment(), RequestsHistoryAdapter.OnItemClickListener
         editText.setOnFocusChangeListener { _, b ->
             if (b) datePickerDialog.show(childFragmentManager, "DatePickerDialog")
         }
+        editText.setOnClickListener { datePickerDialog.show(childFragmentManager, "DatePickerDialog") }
     }
 
     private fun renderView(state: StatQueryState) {

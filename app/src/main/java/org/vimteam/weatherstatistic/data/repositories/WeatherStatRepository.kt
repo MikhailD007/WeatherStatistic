@@ -9,6 +9,7 @@ import org.vimteam.weatherstatistic.domain.contracts.WeatherStatRepositoryContra
 import org.vimteam.weatherstatistic.domain.models.City
 import org.vimteam.weatherstatistic.domain.models.RequestHistory
 import org.vimteam.weatherstatistic.domain.models.WeatherStat
+import java.lang.Exception
 import java.lang.Thread.sleep
 import java.sql.Date
 
@@ -134,22 +135,29 @@ class WeatherStatRepository(
         place: String,
         dateFrom: LocalDate,
         dateTo: LocalDate,
-        func: (ArrayList<WeatherStat>) -> Unit
+        errorFunc: (Exception) -> Unit,
+        successFunc: (ArrayList<WeatherStat>) -> Unit
     ) {
         val weatherStat: ArrayList<WeatherStat> = ArrayList()
         for (i in App.HISTORY_YEARS - 1 downTo 0) {
-            weatherStat.addAll(
-                WeatherMapper.locationDataToWeatherStatList(
-                    api.getWeatherData(
-                        locations = place,
-                        startDateTime = dateFrom.minusYears(i).toString(),
-                        endDateTime = dateTo.minusYears(i).toString()
-                    ).location
-                ) as ArrayList<WeatherStat>
+            val response = api.getWeatherData(
+                locations = place,
+                startDateTime = dateFrom.minusYears(i).toString(),
+                endDateTime = dateTo.minusYears(i).toString()
             )
+            if (response.apiError.errorCode.isNotEmpty()) {
+                errorFunc.invoke(Exception(response.apiError.errorDescription))
+                return
+            } else {
+                weatherStat.addAll(
+                    WeatherMapper.locationDataToWeatherStatList(
+                        response.weatherDataResponse.location
+                    ) as ArrayList<WeatherStat>
+                )
+            }
             sleep(100)
         }
-        func.invoke(weatherStat)
+        successFunc.invoke(weatherStat)
     }
 
 }

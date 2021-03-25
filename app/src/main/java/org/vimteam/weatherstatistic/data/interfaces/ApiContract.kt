@@ -1,6 +1,6 @@
 package org.vimteam.weatherstatistic.data.interfaces
 
-import org.vimteam.weatherstatistic.data.models.WeatherDataResponse
+import org.vimteam.weatherstatistic.data.models.ApiResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -20,6 +20,6 @@ interface ApiContract {
         @Query("key") key: String = "MU1Q3QAYQLGX4RJ4DRVQQU4WL",
         @Query("dataElements") dataElements: String = "default",
         @Query("locations") locations: String,
-    ): WeatherDataResponse
+    ): ApiResponse
 
 }

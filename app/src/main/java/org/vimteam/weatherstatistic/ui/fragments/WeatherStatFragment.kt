@@ -1,5 +1,9 @@
 package org.vimteam.weatherstatistic.ui.fragments
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,7 +26,9 @@ import org.vimteam.weatherstatistic.base.toLocalDate
 import org.vimteam.weatherstatistic.databinding.FragmentStatResultBinding
 import org.vimteam.weatherstatistic.domain.contracts.WeatherStatContract
 import org.vimteam.weatherstatistic.domain.models.RequestHistory
+import org.vimteam.weatherstatistic.domain.models.WeatherStat
 import org.vimteam.weatherstatistic.domain.models.WeatherStatState
+import org.vimteam.weatherstatistic.ui.NetworkService
 import org.vimteam.weatherstatistic.ui.interfaces.LoadState
 
 class WeatherStatFragment : Fragment() {
@@ -49,6 +55,16 @@ class WeatherStatFragment : Fragment() {
         initView(args.requestHistory)
     }
 
+    override fun onResume() {
+        super.onResume()
+        requireContext().registerReceiver(receiverResult, IntentFilter(NetworkService.ACTION_INTENT))
+    }
+
+    override fun onPause() {
+        super.onPause()
+        requireContext().unregisterReceiver(receiverResult)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -63,14 +79,14 @@ class WeatherStatFragment : Fragment() {
             binding.periodTextView.text =
                 "${requestHistory.dateFrom.formatShort()} - ${requestHistory.dateTo.formatShort()}"
         } else {
-            binding.placeNameTextView.text = "New request to API:\n${requestHistory.city.name}"
-            binding.periodTextView.text =
-                "${requestHistory.dateFrom.formatShort()} - ${requestHistory.dateTo.formatShort()}"
-            weatherStatViewModel.getWeatherData(
-                requestHistory.city.name,
-                requestHistory.dateFrom.toLocalDate(),
-                requestHistory.dateTo.toLocalDate()
-            )
+            binding.placeNameTextView.text = getString(R.string.request_to_server_in_progress)
+            binding.periodTextView.text = getString(R.string.request_params,requestHistory.city.name, requestHistory.dateFrom.formatShort(), requestHistory.dateTo.formatShort())
+            val intentExchange = Intent(requireContext(), NetworkService::class.java).apply {
+                this.putExtra(NetworkService.PLACE, requestHistory.city.name)
+                this.putExtra(NetworkService.DATE_FROM, requestHistory.dateFrom.toLocalDate())
+                this.putExtra(NetworkService.DATE_TO, requestHistory.dateTo.toLocalDate())
+            }
+            requireActivity().startService(intentExchange)
         }
     }
 
@@ -81,6 +97,7 @@ class WeatherStatFragment : Fragment() {
                 val maxTemperatureValues: ArrayList<BarEntry> = ArrayList()
                 for (weatherStat in state.requestData) {
                     binding.placeNameTextView.text = weatherStat.city.name
+                    binding.periodTextView.text = "${args.requestHistory.dateFrom.formatShort()} - ${args.requestHistory.dateTo.formatShort()}"
                     minTemperatureValues.add(
                         BarEntry(
                             ("" + weatherStat.date.dayOfMonth + "." + if (weatherStat.date.monthOfYear > 9) weatherStat.date.monthOfYear else "0" + weatherStat.date.monthOfYear).toFloat(),
@@ -133,11 +150,20 @@ class WeatherStatFragment : Fragment() {
             is WeatherStatState.Error -> {
                 (activity as LoadState).setLoadState(false)
                 Snackbar
-                    .make(requireView(), state.error.toString(), Snackbar.LENGTH_LONG)
+                    .make(requireView(), state.error.message.toString(), Snackbar.LENGTH_LONG)
                     .show()
             }
             is WeatherStatState.Loading -> {
                 (activity as LoadState).setLoadState(true)
+            }
+        }
+    }
+
+    var receiverResult: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(arg0: Context, intent: Intent) {
+            if (intent.action?.contentEquals(NetworkService.ACTION_INTENT) == true) {
+                val weatherStat = intent.getParcelableArrayListExtra<WeatherStat>(NetworkService.RESULT_DATA_TAG) as ArrayList<WeatherStat>
+                weatherStatViewModel.proceedWeatherData(weatherStat)
             }
         }
     }
