@@ -11,7 +11,6 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import org.joda.time.LocalDate
-import org.joda.time.ReadablePeriod
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.vimteam.weatherstatistic.App
 import org.vimteam.weatherstatistic.R
@@ -23,8 +22,6 @@ import org.vimteam.weatherstatistic.domain.models.RequestHistory
 import org.vimteam.weatherstatistic.domain.models.StatQueryState
 import org.vimteam.weatherstatistic.ui.adapters.RequestsHistoryAdapter
 import org.vimteam.weatherstatistic.ui.interfaces.LoadState
-import java.io.Serializable
-import java.sql.Date
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -38,11 +35,15 @@ class StatQueryFragment : Fragment(), RequestsHistoryAdapter.OnItemClickListener
     private val requestsHistoryAdapter: RequestsHistoryAdapter =
         RequestsHistoryAdapter(ArrayList(), this)
 
+    companion object {
+        private const val PLACE = "place"
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentStatQueryBinding.inflate(inflater, container, false)
         return binding.root
 
@@ -91,8 +92,8 @@ class StatQueryFragment : Fragment(), RequestsHistoryAdapter.OnItemClickListener
         statQueryViewModel.statQueryState.observe(viewLifecycleOwner) {
             renderView(it)
         }
+        statQueryViewModel.place.observe(viewLifecycleOwner) { binding.searchPlaceEditText.setText(it) }
         statQueryViewModel.getRequestsHistoryList()
-        binding.searchPlaceEditText.setText("Saratov")
         binding.requestStatisticMaterialButton.setOnClickListener { requestWeatherStatistic() }
     }
 
@@ -108,7 +109,7 @@ class StatQueryFragment : Fragment(), RequestsHistoryAdapter.OnItemClickListener
         initialDate?.let {
             val selectedDate = it
             initialYear = selectedDate.year
-            initialMonth = selectedDate.monthOfYear-1
+            initialMonth = selectedDate.monthOfYear - 1
             initialDay = selectedDate.dayOfMonth
         }
         val datePickerDialog: DatePickerDialog = DatePickerDialog.newInstance(
@@ -154,6 +155,11 @@ class StatQueryFragment : Fragment(), RequestsHistoryAdapter.OnItemClickListener
         var flError = false
         val dateFrom = statQueryViewModel.dateFrom.value
         val dateTo = statQueryViewModel.dateTo.value
+        val place = binding.searchPlaceEditText.text.toString().trim()
+        if (place.isEmpty()) {
+            binding.searchPlaceEditText.error = getString(R.string.obligatory_field)
+            flError = true
+        }
         if (dateFrom == null) {
             binding.dateFromTextInputLayout.error = getString(R.string.obligatory_field)
             flError = true
@@ -177,7 +183,7 @@ class StatQueryFragment : Fragment(), RequestsHistoryAdapter.OnItemClickListener
                     .show()
                 binding.dateToTextInputLayout.error = getString(R.string.wrong_date)
                 flError = true
-            } else if (dateTo.minusDays(App.MAX_DAYS-1) > dateFrom) {
+            } else if (dateTo.minusDays(App.MAX_DAYS - 1) > dateFrom) {
                 Snackbar
                     .make(requireView(), getString(R.string.period_restraints, App.MAX_DAYS), Snackbar.LENGTH_LONG)
                     .show()
@@ -186,12 +192,13 @@ class StatQueryFragment : Fragment(), RequestsHistoryAdapter.OnItemClickListener
             }
         }
         if (flError) return
+        statQueryViewModel.setPlace(place)
         val action =
             StatQueryFragmentDirections.actionStatQueryFragmentToWeatherStatFragmentFromApi(
                 RequestHistory(
                     City(
                         "",
-                        binding.searchPlaceEditText.text.toString().trim(),
+                        place,
                         0.0,
                         0.0
                     ),

@@ -8,10 +8,14 @@ interface StatQueryContract {
 
     abstract class ViewModel : androidx.lifecycle.ViewModel() {
         abstract val statQueryState: LiveData<StatQueryState>
+
+        abstract val place: LiveData<String>
         abstract val dateFrom: LiveData<LocalDate>
         abstract val dateTo: LiveData<LocalDate>
 
         abstract fun getRequestsHistoryList()
+
+        abstract fun setPlace(place: String)
 
         abstract fun setDateFrom(date: LocalDate)
 
