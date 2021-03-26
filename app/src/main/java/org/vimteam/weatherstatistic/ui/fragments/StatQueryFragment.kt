@@ -19,7 +19,7 @@ import org.vimteam.weatherstatistic.databinding.FragmentStatQueryBinding
 import org.vimteam.weatherstatistic.domain.contracts.StatQueryContract
 import org.vimteam.weatherstatistic.domain.models.City
 import org.vimteam.weatherstatistic.domain.models.RequestHistory
-import org.vimteam.weatherstatistic.domain.models.StatQueryState
+import org.vimteam.weatherstatistic.domain.models.state.StatQueryState
 import org.vimteam.weatherstatistic.ui.adapters.RequestsHistoryAdapter
 import org.vimteam.weatherstatistic.ui.interfaces.LoadState
 import java.util.*

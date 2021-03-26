@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
     id 'koin'
@@ -94,4 +95,11 @@ dependencies {
 
     //Coil
     implementation 'io.coil-kt:coil:0.11.0'
+
+    //Room
+    implementation 'androidx.room:room-runtime:2.2.6'
+    kapt 'androidx.room:room-compiler:2.2.6'
+    implementation "androidx.room:room-ktx:2.2.6"
+
+    implementation 'com.facebook.stetho:stetho:1.5.1'
 }

@@ -1,6 +1,6 @@
 package org.vimteam.weatherstatistic.data.interfaces
 
-import org.vimteam.weatherstatistic.data.models.ApiResponse
+import org.vimteam.weatherstatistic.data.models.api.ApiResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

@@ -1,4 +1,6 @@
-package org.vimteam.weatherstatistic.domain.models
+package org.vimteam.weatherstatistic.domain.models.state
+
+import org.vimteam.weatherstatistic.domain.models.WeatherStat
 
 sealed class WeatherStatState{
     data class Success(val requestData: ArrayList<WeatherStat>) : WeatherStatState()

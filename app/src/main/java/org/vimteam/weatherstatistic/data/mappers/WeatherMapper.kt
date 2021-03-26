@@ -1,7 +1,7 @@
 package org.vimteam.weatherstatistic.data.mappers
 
-import org.vimteam.weatherstatistic.data.models.LocationDataResponse
-import org.vimteam.weatherstatistic.data.models.WeatherDataDayResponse
+import org.vimteam.weatherstatistic.data.models.api.LocationDataResponse
+import org.vimteam.weatherstatistic.data.models.api.WeatherDataDayResponse
 import org.vimteam.weatherstatistic.domain.models.City
 import org.vimteam.weatherstatistic.domain.models.WeatherStat
 

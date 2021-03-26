@@ -6,11 +6,10 @@ import okhttp3.MediaType
 import okhttp3.Response
 import okhttp3.ResponseBody
 import org.json.JSONObject
-import org.vimteam.weatherstatistic.base.parseFromJson
-import org.vimteam.weatherstatistic.data.models.ApiError
-import org.vimteam.weatherstatistic.data.models.ApiResponse
-import org.vimteam.weatherstatistic.data.models.LocationDataResponse
-import org.vimteam.weatherstatistic.data.models.WeatherDataResponse
+import org.vimteam.weatherstatistic.data.models.api.ApiError
+import org.vimteam.weatherstatistic.data.models.api.ApiResponse
+import org.vimteam.weatherstatistic.data.models.api.LocationDataResponse
+import org.vimteam.weatherstatistic.data.models.api.WeatherDataResponse
 
 class VisualcrossingInterceptor : Interceptor {
 
@@ -21,24 +20,22 @@ class VisualcrossingInterceptor : Interceptor {
         val emptyWeatherData = WeatherDataResponse(LocationDataResponse(ArrayList(), ""))
         when (response.code()) {
             200 -> {
-                responseBodyString?.let {
-                    if (responseBodyString.contains("errorCode")) {
-                        return response.newBuilder().body(
-                            createResponseBody(
-                                Gson().toJson(
-                                    ApiResponse(
-                                        emptyWeatherData,
-                                        ApiError(
-                                            JSONObject(it).getString("errorCode"),
-                                            JSONObject(it).getString("message")
-                                        )
+                if (responseBodyString.contains("errorCode")) {
+                    return response.newBuilder().body(
+                        createResponseBody(
+                            Gson().toJson(
+                                ApiResponse(
+                                    emptyWeatherData,
+                                    ApiError(
+                                        JSONObject(responseBodyString).getString("errorCode"),
+                                        JSONObject(responseBodyString).getString("message")
                                     )
                                 )
                             )
                         )
-                            .code(200)
-                            .build()
-                    }
+                    )
+                        .code(200)
+                        .build()
                 }
             }
             else -> {

@@ -2,7 +2,7 @@ package org.vimteam.weatherstatistic.domain.contracts
 
 import androidx.lifecycle.LiveData
 import org.joda.time.LocalDate
-import org.vimteam.weatherstatistic.domain.models.StatQueryState
+import org.vimteam.weatherstatistic.domain.models.state.StatQueryState
 
 interface StatQueryContract {
 

@@ -1,4 +1,4 @@
-package org.vimteam.weatherstatistic.data.models
+package org.vimteam.weatherstatistic.data.models.api
 
 import com.google.gson.annotations.SerializedName
 

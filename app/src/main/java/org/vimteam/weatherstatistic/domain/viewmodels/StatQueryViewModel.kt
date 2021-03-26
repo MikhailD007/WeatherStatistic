@@ -5,7 +5,7 @@ import org.joda.time.LocalDate
 import org.vimteam.weatherstatistic.domain.contracts.SharedPreferencesContract
 import org.vimteam.weatherstatistic.domain.contracts.StatQueryContract
 import org.vimteam.weatherstatistic.domain.contracts.WeatherStatRepositoryContract
-import org.vimteam.weatherstatistic.domain.models.StatQueryState
+import org.vimteam.weatherstatistic.domain.models.state.StatQueryState
 
 class StatQueryViewModel(
     private val repo: WeatherStatRepositoryContract,
