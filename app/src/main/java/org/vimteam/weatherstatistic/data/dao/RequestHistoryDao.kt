@@ -12,6 +12,6 @@ interface RequestHistoryDao {
     @Delete
     fun delete(entity: RequestHistoryEntity)
 
-    @Query("SELECT * FROM RequestHistoryEntity")
+    @Query("SELECT * FROM RequestHistoryEntity ORDER BY place, date")
     fun allRecords(): List<RequestHistoryEntity>
 }

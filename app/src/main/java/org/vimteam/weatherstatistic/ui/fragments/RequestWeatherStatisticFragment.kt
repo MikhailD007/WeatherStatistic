@@ -14,37 +14,32 @@ import org.joda.time.LocalDate
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.vimteam.weatherstatistic.App
 import org.vimteam.weatherstatistic.R
-import org.vimteam.weatherstatistic.base.toSQLDate
-import org.vimteam.weatherstatistic.databinding.FragmentStatQueryBinding
-import org.vimteam.weatherstatistic.domain.contracts.StatQueryContract
+import org.vimteam.weatherstatistic.databinding.FragmentRequestWeatherStatisticBinding
+import org.vimteam.weatherstatistic.domain.contracts.RequestWeatherStatisticContract
 import org.vimteam.weatherstatistic.domain.models.City
 import org.vimteam.weatherstatistic.domain.models.RequestHistory
-import org.vimteam.weatherstatistic.domain.models.state.StatQueryState
+import org.vimteam.weatherstatistic.domain.models.state.RequestWeatherStatisticState
 import org.vimteam.weatherstatistic.ui.adapters.RequestsHistoryAdapter
 import org.vimteam.weatherstatistic.ui.interfaces.LoadState
 import java.util.*
 import kotlin.collections.ArrayList
 
-class StatQueryFragment : Fragment(), RequestsHistoryAdapter.OnItemClickListener {
+class RequestWeatherStatisticFragment : Fragment(), RequestsHistoryAdapter.OnItemClickListener {
 
-    private var _binding: FragmentStatQueryBinding? = null
+    private var _binding: FragmentRequestWeatherStatisticBinding? = null
     private val binding get() = _binding!!
 
-    private val statQueryViewModel by viewModel<StatQueryContract.ViewModel>()
+    private val requestWeatherStatisticViewModel by viewModel<RequestWeatherStatisticContract.ViewModel>()
 
     private val requestsHistoryAdapter: RequestsHistoryAdapter =
         RequestsHistoryAdapter(ArrayList(), this)
-
-    companion object {
-        private const val PLACE = "place"
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentStatQueryBinding.inflate(inflater, container, false)
+        _binding = FragmentRequestWeatherStatisticBinding.inflate(inflater, container, false)
         return binding.root
 
     }
@@ -61,7 +56,7 @@ class StatQueryFragment : Fragment(), RequestsHistoryAdapter.OnItemClickListener
 
     override fun onItemClick(requestHistory: RequestHistory) {
         val action =
-            StatQueryFragmentDirections.actionStatQueryFragmentToWeatherStatFragmentFromHistory(
+            RequestWeatherStatisticFragmentDirections.actionRequestWeatherStatisticFragmentToResultWeatherStatisticFragmentFromHistory(
                 requestHistory
             )
         requireView().findNavController().navigate(action)
@@ -71,29 +66,29 @@ class StatQueryFragment : Fragment(), RequestsHistoryAdapter.OnItemClickListener
         initDateTimePicker(
             getString(R.string.dateFrom),
             binding.dateFromEditText,
-            statQueryViewModel.dateFrom.value
+            requestWeatherStatisticViewModel.dateFrom.value
         ) {
-            statQueryViewModel.setDateFrom(it)
-            if (statQueryViewModel.dateTo.value == null) {
+            requestWeatherStatisticViewModel.setDateFrom(it)
+            if (requestWeatherStatisticViewModel.dateTo.value == null) {
                 initDateTimePicker(
                     getString(R.string.dateTo),
                     binding.dateToEditText,
-                    statQueryViewModel.dateFrom.value
-                ) { dateTo -> statQueryViewModel.setDateTo(dateTo) }
+                    requestWeatherStatisticViewModel.dateFrom.value
+                ) { dateTo -> requestWeatherStatisticViewModel.setDateTo(dateTo) }
                 binding.dateToEditText.requestFocus()
             }
         }
         initDateTimePicker(
             getString(R.string.dateTo),
             binding.dateToEditText,
-            statQueryViewModel.dateTo.value
-        ) { statQueryViewModel.setDateTo(it) }
+            requestWeatherStatisticViewModel.dateTo.value
+        ) { requestWeatherStatisticViewModel.setDateTo(it) }
         binding.requestsHistoryRecyclerView.adapter = requestsHistoryAdapter
-        statQueryViewModel.statQueryState.observe(viewLifecycleOwner) {
+        requestWeatherStatisticViewModel.requestWeatherStatisticState.observe(viewLifecycleOwner) {
             renderView(it)
         }
-        statQueryViewModel.place.observe(viewLifecycleOwner) { binding.searchPlaceEditText.setText(it) }
-        statQueryViewModel.getRequestsHistoryList()
+        requestWeatherStatisticViewModel.place.observe(viewLifecycleOwner) { binding.searchPlaceEditText.setText(it) }
+        requestWeatherStatisticViewModel.getRequestsHistoryList()
         binding.requestStatisticMaterialButton.setOnClickListener { requestWeatherStatistic() }
     }
 
@@ -131,18 +126,18 @@ class StatQueryFragment : Fragment(), RequestsHistoryAdapter.OnItemClickListener
         editText.setOnClickListener { datePickerDialog.show(childFragmentManager, "DatePickerDialog") }
     }
 
-    private fun renderView(state: StatQueryState) {
+    private fun renderView(state: RequestWeatherStatisticState) {
         when (state) {
-            is StatQueryState.Success -> {
+            is RequestWeatherStatisticState.Success -> {
                 requestsHistoryAdapter.requestsHistory.clear()
                 requestsHistoryAdapter.requestsHistory.addAll(state.requestsHistory)
                 requestsHistoryAdapter.notifyDataSetChanged()
                 (activity as LoadState).setLoadState(false)
             }
-            is StatQueryState.Loading -> {
+            is RequestWeatherStatisticState.Loading -> {
                 (activity as LoadState).setLoadState(true)
             }
-            is StatQueryState.Error -> {
+            is RequestWeatherStatisticState.Error -> {
                 (activity as LoadState).setLoadState(false)
                 Snackbar
                     .make(requireView(), state.error.toString(), Snackbar.LENGTH_LONG)
@@ -153,8 +148,8 @@ class StatQueryFragment : Fragment(), RequestsHistoryAdapter.OnItemClickListener
 
     private fun requestWeatherStatistic() {
         var flError = false
-        val dateFrom = statQueryViewModel.dateFrom.value
-        val dateTo = statQueryViewModel.dateTo.value
+        val dateFrom = requestWeatherStatisticViewModel.dateFrom.value
+        val dateTo = requestWeatherStatisticViewModel.dateTo.value
         val place = binding.searchPlaceEditText.text.toString().trim()
         if (place.isEmpty()) {
             binding.searchPlaceEditText.error = getString(R.string.obligatory_field)
@@ -192,9 +187,9 @@ class StatQueryFragment : Fragment(), RequestsHistoryAdapter.OnItemClickListener
             }
         }
         if (flError) return
-        statQueryViewModel.setPlace(place)
+        requestWeatherStatisticViewModel.setPlace(place)
         val action =
-            StatQueryFragmentDirections.actionStatQueryFragmentToWeatherStatFragmentFromApi(
+            RequestWeatherStatisticFragmentDirections.actionRequestWeatherStatisticFragmentToResultWeatherStatisticFragmentFromApi(
                 RequestHistory(
                     City(
                         "",
@@ -202,8 +197,8 @@ class StatQueryFragment : Fragment(), RequestsHistoryAdapter.OnItemClickListener
                         0.0,
                         0.0
                     ),
-                    (statQueryViewModel.dateFrom.value as LocalDate).toSQLDate(),
-                    (statQueryViewModel.dateTo.value as LocalDate).toSQLDate(),
+                    requestWeatherStatisticViewModel.dateFrom.value as LocalDate,
+                    requestWeatherStatisticViewModel.dateTo.value as LocalDate,
                     ArrayList()
                 )
             )

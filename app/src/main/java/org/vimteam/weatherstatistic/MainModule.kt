@@ -12,17 +12,15 @@ import org.koin.dsl.module
 import org.koin.experimental.builder.singleBy
 import org.vimteam.weatherstatistic.base.ConnectivityListener
 import org.vimteam.weatherstatistic.data.api.interceptors.VisualcrossingInterceptor
+import org.vimteam.weatherstatistic.data.api.interfaces.VisualcrossingInterface
 import org.vimteam.weatherstatistic.data.converters.LocalDateConverter
-import org.vimteam.weatherstatistic.data.database.LocalDatabase
 import org.vimteam.weatherstatistic.data.database.WeatherDB
-import org.vimteam.weatherstatistic.data.interfaces.ApiContract
-import org.vimteam.weatherstatistic.data.interfaces.DatabaseContract
+import org.vimteam.weatherstatistic.data.repositories.ApiRepository
 import org.vimteam.weatherstatistic.data.repositories.DatabaseRepository
 import org.vimteam.weatherstatistic.data.repositories.SharedPreferencesRepository
-import org.vimteam.weatherstatistic.data.repositories.WeatherStatRepository
 import org.vimteam.weatherstatistic.domain.contracts.*
-import org.vimteam.weatherstatistic.domain.viewmodels.StatQueryViewModel
-import org.vimteam.weatherstatistic.domain.viewmodels.WeatherStatViewModel
+import org.vimteam.weatherstatistic.domain.viewmodels.RequestWeatherStatisticViewModel
+import org.vimteam.weatherstatistic.domain.viewmodels.ResultWeatherStatisticViewModel
 import org.vimteam.weatherstatistic.ui.providers.ResourcesProvider
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -30,7 +28,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object MainModule {
     fun get() = module {
 
-        fun provideRetrofit(): Retrofit {
+        fun provideVisualcrossingRetrofit(): Retrofit {
             val okHttpClientBuilder = OkHttpClient.Builder()
             val httpLoggingInterceptor = HttpLoggingInterceptor()
             val loggingInterceptor =
@@ -57,8 +55,8 @@ object MainModule {
                 .build()
         }
 
-        fun provideWeatherApi(retrofit: Retrofit): ApiContract {
-            return retrofit.create(ApiContract::class.java)
+        fun provideVisualcrossingApi(retrofit: Retrofit): VisualcrossingInterface {
+            return retrofit.create(VisualcrossingInterface::class.java)
         }
 
         fun provideDatabase(application: Application): WeatherDB {
@@ -66,19 +64,21 @@ object MainModule {
                 .fallbackToDestructiveMigration()
                 .build()
         }
-        
+
         singleBy<ResourcesProviderContract, ResourcesProvider>()
         singleBy<SharedPreferencesContract, SharedPreferencesRepository>()
-        singleBy <DatabaseContract, LocalDatabase>()
-        single { provideRetrofit() }
-        single { provideWeatherApi(get()) }
+
         single { ConnectivityListener(get()) }
+
         single { provideDatabase(androidApplication()) }
         factory<DatabaseRepositoryContract> { DatabaseRepository(get()) }
 
-        factory<WeatherStatRepositoryContract> { WeatherStatRepository(get(), get()) }
-        viewModel<StatQueryContract.ViewModel> { StatQueryViewModel(get(), get()) }
-        viewModel<WeatherStatContract.ViewModel> { WeatherStatViewModel(get(), get()) }
+        single { provideVisualcrossingRetrofit() }
+        single { provideVisualcrossingApi(get()) }
+        factory<ApiRepositoryContract> { ApiRepository(get()) }
+
+        viewModel<RequestWeatherStatisticContract.ViewModel> { RequestWeatherStatisticViewModel(get(), get()) }
+        viewModel<ResultWeatherStatisticContract.ViewModel> { ResultWeatherStatisticViewModel(get(), get()) }
 
     }
 }

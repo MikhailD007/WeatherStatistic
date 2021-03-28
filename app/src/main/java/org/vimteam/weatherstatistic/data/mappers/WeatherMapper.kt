@@ -3,23 +3,23 @@ package org.vimteam.weatherstatistic.data.mappers
 import org.vimteam.weatherstatistic.data.models.api.LocationDataResponse
 import org.vimteam.weatherstatistic.data.models.api.WeatherDataDayResponse
 import org.vimteam.weatherstatistic.domain.models.City
-import org.vimteam.weatherstatistic.domain.models.WeatherStat
+import org.vimteam.weatherstatistic.domain.models.WeatherStatistic
 
 object WeatherMapper {
 
     fun weatherDataDayResponseToWeatherStat(
         weatherDataDayResponse: WeatherDataDayResponse,
-        city: City
-    ): WeatherStat = weatherDataDayResponse.run {
-        WeatherStat(
+        place: City
+    ): WeatherStatistic = weatherDataDayResponse.run {
+        WeatherStatistic(
             maxTemperature = this.maxTemperature,
             minTemperature = this.minTemperature,
-            city = city,
+            place = place,
             date = this.date
         )
     }
 
-    fun locationDataToWeatherStatList(locationDataResponse: LocationDataResponse): List<WeatherStat> =
+    fun locationDataToWeatherStatList(locationDataResponse: LocationDataResponse): List<WeatherStatistic> =
         locationDataResponse.run {
             this.weatherDataDayArray.map {
                 weatherDataDayResponseToWeatherStat(

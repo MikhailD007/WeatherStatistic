@@ -6,9 +6,9 @@ import org.joda.time.LocalDate
 import java.util.*
 
 @Parcelize
-data class WeatherStat(
+data class WeatherStatistic(
     val date: LocalDate,
-    val city: City,
+    val place: City,
     val minTemperature: Float,
     val maxTemperature: Float,
     val windChillTemperature: Int = 0,

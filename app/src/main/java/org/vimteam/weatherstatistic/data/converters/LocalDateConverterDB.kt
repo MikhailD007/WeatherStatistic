@@ -9,10 +9,10 @@ import java.util.*
 class LocalDateConverterDB {
 
     @TypeConverter
-    fun toLocateDate(date: LocalDate?) = date?.toString()
+    fun fromLocateDate(date: LocalDate?) = date?.toString()
 
     @TypeConverter
-    fun fromLocateDate(dateStr: String?): LocalDate? = dateStr?.let {
+    fun toLocateDate(dateStr: String?): LocalDate? = dateStr?.let {
         try {
             LocalDate.parse(dateStr)
         } catch (e: ParseException) {

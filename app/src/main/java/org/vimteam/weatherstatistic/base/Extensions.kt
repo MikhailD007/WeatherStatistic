@@ -13,7 +13,6 @@ fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false):
     return LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
 }
 
-fun LocalDate.toSQLDate(): Date = java.sql.Date(this.toDateTimeAtStartOfDay().millis)
-fun Date.toLocalDate(): LocalDate = LocalDate(this)
-fun Date.formatShort(): String = java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT).format(this)
+fun LocalDate.toSQLDate(): Date = Date(this.toDateTimeAtStartOfDay().millis)
+fun LocalDate.formatShort(): String = java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT).format(this.toSQLDate())
 inline fun <reified T> Gson.parseFromJson(json: String) = this.fromJson<T>(json, object : TypeToken<T>() {}.type)

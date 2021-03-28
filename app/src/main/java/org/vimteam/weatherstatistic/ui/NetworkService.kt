@@ -13,11 +13,11 @@ import kotlinx.coroutines.launch
 import org.joda.time.LocalDate
 import org.koin.android.ext.android.inject
 import org.vimteam.weatherstatistic.R
-import org.vimteam.weatherstatistic.domain.contracts.WeatherStatRepositoryContract
+import org.vimteam.weatherstatistic.domain.contracts.ApiRepositoryContract
 
 class NetworkService() : Service() {
 
-    private val repo: WeatherStatRepositoryContract by inject()
+    private val repo: ApiRepositoryContract by inject()
 
     private val ID_NOTIFICATION = 801
     private val SERVICE_ID = "WeatherHistoryService_vimteam.org"
@@ -25,6 +25,7 @@ class NetworkService() : Service() {
     private val mManager: NotificationManager by lazy {
         getSystemService(NOTIFICATION_SERVICE) as NotificationManager
     }
+    @Suppress("DEPRECATION")
     private val mBuilder: NotificationCompat.Builder by lazy {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) NotificationCompat.Builder(
             applicationContext,

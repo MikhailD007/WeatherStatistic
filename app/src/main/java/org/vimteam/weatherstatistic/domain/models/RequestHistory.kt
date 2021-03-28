@@ -2,12 +2,12 @@ package org.vimteam.weatherstatistic.domain.models
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import java.sql.Date
+import org.joda.time.LocalDate
 
 @Parcelize
 data class RequestHistory(
-    val city: City,
-    val dateFrom: Date,
-    val dateTo: Date,
-    val weatherDataList: ArrayList<WeatherStat>
+    val place: City,
+    val dateFrom: LocalDate,
+    val dateTo: LocalDate,
+    val weatherDataList: ArrayList<WeatherStatistic>
 ): Parcelable

@@ -4,6 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.vimteam.weatherstatistic.R
+import org.vimteam.weatherstatistic.base.formatShort
 import org.vimteam.weatherstatistic.base.inflate
 import org.vimteam.weatherstatistic.databinding.ListitemRequestHistoryBinding
 import org.vimteam.weatherstatistic.domain.models.RequestHistory
@@ -31,8 +32,8 @@ class RequestsHistoryAdapter(
 
         fun bindItem(requestHistory: RequestHistory) {
             this.requestHistory = requestHistory
-            binding.placeNameTextView.text = requestHistory.city.name
-            binding.periodTextView.text = "${requestHistory.dateFrom} - ${requestHistory.dateTo}"
+            binding.placeNameTextView.text = requestHistory.place.name
+            binding.periodTextView.text = "${requestHistory.dateFrom.formatShort()} - ${requestHistory.dateTo.formatShort()}"
             itemView.setOnClickListener {
                 fragment.onItemClick(requestHistory)
             }

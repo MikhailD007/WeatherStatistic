@@ -1,10 +1,10 @@
-package org.vimteam.weatherstatistic.data.interfaces
+package org.vimteam.weatherstatistic.data.api.interfaces
 
 import org.vimteam.weatherstatistic.data.models.api.ApiResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface ApiContract {
+interface VisualcrossingInterface {
 
     @GET("/VisualCrossingWebServices/rest/services/weatherdata/history")
     suspend fun getWeatherData(
