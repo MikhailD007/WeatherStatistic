@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.joda.time.LocalDate
@@ -15,4 +17,3 @@ fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false):
 
 fun LocalDate.toSQLDate(): Date = Date(this.toDateTimeAtStartOfDay().millis)
 fun LocalDate.formatShort(): String = java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT).format(this.toSQLDate())
-inline fun <reified T> Gson.parseFromJson(json: String) = this.fromJson<T>(json, object : TypeToken<T>() {}.type)

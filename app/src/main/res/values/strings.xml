@@ -34,4 +34,12 @@
     <string name="no_permission">Don\'t</string>
     <string name="contacts_permission_dialog_denied_description">You don\'t give permission to read your contacts, so poor students will fail their homework :(</string>
     <string name="ok">@android:string/ok</string>
+    <string name="position_permission_dialog_title">Position permission required</string>
+    <string name="position_permission_dialog_description">To select position for weather statistic on map, we need access to your location to determin your actual position and show it on the map</string>
+    <string name="position_permission_dialog_denied_description">Functionality of selection position for weather statistic on map will be unavailable without perfission for access to your position (location)</string>
+    <string name="dialog_title_gps_turned_off">GPS is turned off</string>
+    <string name="dialog_message_last_location_unknown">No last known position found. Cannot determine your position</string>
+    <string name="dialog_message_last_known_location">Last known position will be used</string>
+    <string name="initial_position">Initial position</string>
+    <string name="select_marked_place">Select marked place</string>
 </resources>

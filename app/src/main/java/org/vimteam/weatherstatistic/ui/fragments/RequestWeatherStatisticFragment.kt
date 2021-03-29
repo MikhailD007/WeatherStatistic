@@ -10,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts.RequestPermissi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
@@ -96,7 +97,15 @@ class RequestWeatherStatisticFragment : Fragment(), RequestsHistoryAdapter.OnIte
         requestWeatherStatisticViewModel.place.observe(viewLifecycleOwner) { binding.searchPlaceEditText.setText(it) }
         requestWeatherStatisticViewModel.getRequestsHistoryList()
         binding.requestStatisticMaterialButton.setOnClickListener { requestWeatherStatistic() }
-        binding.contactsMaterialButton.setOnClickListener { checkPermission() }
+        binding.contactsMaterialButton.setOnClickListener { checkContactsPermission() }
+        binding.placeSelectImageButton.setOnClickListener {
+            setFragmentResultListener(MapsFragment.REQUEST_KEY) { _, bundle ->
+                requestWeatherStatisticViewModel.setPlace(bundle.getString(MapsFragment.REQUEST_KEY) ?:"")
+            }
+            requireView().findNavController().navigate(
+                RequestWeatherStatisticFragmentDirections.actionRequestWeatherStatisticFragmentToMapsFragment()
+            )
+        }
     }
 
     private fun initDateTimePicker(
@@ -218,7 +227,7 @@ class RequestWeatherStatisticFragment : Fragment(), RequestsHistoryAdapter.OnIte
         )
     }
 
-    private fun checkPermission() {
+    private fun checkContactsPermission() {
         context?.let {
             when {
                 ContextCompat.checkSelfPermission(it, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED -> {
@@ -229,7 +238,7 @@ class RequestWeatherStatisticFragment : Fragment(), RequestsHistoryAdapter.OnIte
                         .setTitle(getString(R.string.contacts_permission_dialog_title))
                         .setMessage(getString(R.string.contacts_permission_dialog_description))
                         .setPositiveButton(getString(R.string.give_permission)) { _, _ ->
-                            requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
+                            requestContactsPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
                         }
                         .setNegativeButton(getString(R.string.no_permission)) { dialog, _ ->
                             AlertDialog.Builder(it)
@@ -244,13 +253,13 @@ class RequestWeatherStatisticFragment : Fragment(), RequestsHistoryAdapter.OnIte
                         .show()
                 }
                 else -> {
-                    requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
+                    requestContactsPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
                 }
             }
         }
     }
 
-    private val requestPermissionLauncher = registerForActivityResult(
+    private val requestContactsPermissionLauncher = registerForActivityResult(
         RequestPermission()
     ) { isGranted: Boolean ->
         if (isGranted) {
@@ -259,7 +268,7 @@ class RequestWeatherStatisticFragment : Fragment(), RequestsHistoryAdapter.OnIte
             AlertDialog.Builder(requireContext())
                 .setTitle(getString(R.string.contacts_permission_dialog_title))
                 .setMessage(getString(R.string.contacts_permission_dialog_denied_description))
-                .setPositiveButton(getString(R.string.no_permission)) { dialogExplanation, _ -> dialogExplanation.dismiss() }
+                .setPositiveButton(getString(R.string.ok)) { dialogExplanation, _ -> dialogExplanation.dismiss() }
                 .create()
                 .show()
         }
