@@ -1,23 +1,27 @@
 package org.vimteam.weatherstatistic.domain.models
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+import org.joda.time.LocalDate
 import java.util.*
 
+@Parcelize
 data class WeatherStat(
-    val date: Date,
+    val date: LocalDate,
     val city: City,
-    val minTemperature: Int,
-    val maxTemperature: Int,
-    val windChillTemperature: Int,
-    val heatIndexTemperature: Int,
-    val cloudCover: Int,
-    val precipitation: Float,
-    val precipitationCover: Int,
-    val relativeHumidity: Int,
-    val visibilityRange: Int,
-    val snow: Float,
-    val snowDepth: Int,
-    val windSpeed: Int,
-    val windGust: Int,
-    val weatherType: String,
-    val conditions: String
-)
+    val minTemperature: Float,
+    val maxTemperature: Float,
+    val windChillTemperature: Int = 0,
+    val heatIndexTemperature: Int = 0,
+    val cloudCover: Int = 0,
+    val precipitation: Float = 0.0F,
+    val precipitationCover: Int = 0,
+    val relativeHumidity: Int = 0,
+    val visibilityRange: Int = 0,
+    val snow: Float = 0.0F,
+    val snowDepth: Int = 0,
+    val windSpeed: Int= 0,
+    val windGust: Int= 0,
+    val weatherType: String = "",
+    val conditions: String = ""
+): Parcelable

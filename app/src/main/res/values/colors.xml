@@ -6,5 +6,11 @@
     <color name="orange_dark">#974200</color>
     <color name="black">#FF000000</color>
     <color name="gray">#858585</color>
+    <color name="gray_light">#B3B3B3</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="white_semitransparent">#B2FFFFFF</color>
+    <color name="black_semitransparent">#B2000000</color>
+
+    <color name="blue_light">#03A9F4</color>
+    <color name="red_light">#E57373</color>
 </resources>

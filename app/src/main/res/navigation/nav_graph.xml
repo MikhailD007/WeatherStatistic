@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/statQueryFragment">
+    <fragment
+        android:id="@+id/statQueryFragment"
+        android:name="org.vimteam.weatherstatistic.ui.fragments.StatQueryFragment"
+        android:label="StatQueryFragment"
+        tools:layout="@layout/fragment_stat_query">
+        <action
+            android:id="@+id/action_statQueryFragment_to_weatherStatFragment_from_history"
+            app:destination="@id/weatherStatFragment" />
+        <action
+            android:id="@+id/action_statQueryFragment_to_weatherStatFragment_from_api"
+            app:destination="@id/weatherStatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/weatherStatFragment"
+        android:name="org.vimteam.weatherstatistic.ui.fragments.WeatherStatFragment"
+        android:label="WeatherStatFragment"
+        tools:layout="@layout/fragment_stat_result">
+        <argument
+            android:name="requestHistory"
+            app:argType="org.vimteam.weatherstatistic.domain.models.RequestHistory" />
+    </fragment>
+</navigation>
