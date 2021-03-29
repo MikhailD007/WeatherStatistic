@@ -1,0 +1,23 @@
+<resources>
+    <!--
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=69:CA:9B:0E:9B:1F:2C:1B:A1:53:97:54:21:D6:F1:85:9A:89:DC:38%3Borg.vimteam.weatherstatistic.ui.fragments
+
+    You can also add your credentials to an existing key, using these values:
+
+    Package name:
+    org.vimteam.weatherstatistic.ui.fragments
+
+    SHA-1 certificate fingerprint:
+    69:CA:9B:0E:9B:1F:2C:1B:A1:53:97:54:21:D6:F1:85:9A:89:DC:38
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAOIg6O6hfMvVdheB4gt-mk-EHI5O1K-D4</string>
+</resources>
