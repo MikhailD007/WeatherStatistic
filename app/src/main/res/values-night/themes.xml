@@ -4,7 +4,7 @@
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryVariant">@color/blue_dark</item>
-        <item name="colorOnPrimary">@color/gray</item>
+        <item name="colorOnPrimary">@color/gray_light</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/orange</item>
         <item name="colorSecondaryVariant">@color/orange_dark</item>
@@ -14,6 +14,6 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="Theme.Notes.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Dark"/>
+    <style name="Theme.WeatherStatistic.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Dark"/>
 
 </resources>

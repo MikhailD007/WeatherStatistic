@@ -1,14 +1,21 @@
 package org.vimteam.weatherstatistic
 
 import androidx.multidex.MultiDexApplication
+import com.facebook.stetho.Stetho
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
 class App : MultiDexApplication() {
 
+    companion object {
+        const val HISTORY_YEARS = 3
+        const val MAX_DAYS = 3
+    }
+
     override fun onCreate() {
         super.onCreate()
+        Stetho.initializeWithDefaults(this)
         val crashlitics = FirebaseCrashlytics.getInstance()
         with(crashlitics) {
             setUserId("")

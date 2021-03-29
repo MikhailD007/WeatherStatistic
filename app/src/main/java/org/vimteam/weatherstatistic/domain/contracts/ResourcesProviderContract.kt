@@ -1,8 +1,12 @@
 package org.vimteam.weatherstatistic.domain.contracts
 
+import android.graphics.drawable.Drawable
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+
 interface ResourcesProviderContract {
 
-    fun getString(id: Int): String
+    fun getString(@StringRes id: Int): String
 
-    fun getString(stringName: String): String
+    fun getDrawable(@DrawableRes id: Int): Drawable?
 }
