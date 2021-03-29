@@ -1,9 +1,14 @@
 package org.vimteam.weatherstatistic.ui.fragments
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
@@ -23,6 +28,7 @@ import org.vimteam.weatherstatistic.ui.adapters.RequestsHistoryAdapter
 import org.vimteam.weatherstatistic.ui.interfaces.LoadState
 import java.util.*
 import kotlin.collections.ArrayList
+
 
 class RequestWeatherStatisticFragment : Fragment(), RequestsHistoryAdapter.OnItemClickListener {
 
@@ -90,6 +96,7 @@ class RequestWeatherStatisticFragment : Fragment(), RequestsHistoryAdapter.OnIte
         requestWeatherStatisticViewModel.place.observe(viewLifecycleOwner) { binding.searchPlaceEditText.setText(it) }
         requestWeatherStatisticViewModel.getRequestsHistoryList()
         binding.requestStatisticMaterialButton.setOnClickListener { requestWeatherStatistic() }
+        binding.contactsMaterialButton.setOnClickListener { checkPermission() }
     }
 
     private fun initDateTimePicker(
@@ -204,4 +211,58 @@ class RequestWeatherStatisticFragment : Fragment(), RequestsHistoryAdapter.OnIte
             )
         requireView().findNavController().navigate(action)
     }
+
+    private fun requestContactsList() {
+        requireView().findNavController().navigate(
+            RequestWeatherStatisticFragmentDirections.actionRequestWeatherStatisticFragmentToContactsListFragment()
+        )
+    }
+
+    private fun checkPermission() {
+        context?.let {
+            when {
+                ContextCompat.checkSelfPermission(it, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED -> {
+                    requestContactsList()
+                }
+                shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS) -> {
+                    AlertDialog.Builder(it)
+                        .setTitle(getString(R.string.contacts_permission_dialog_title))
+                        .setMessage(getString(R.string.contacts_permission_dialog_description))
+                        .setPositiveButton(getString(R.string.give_permission)) { _, _ ->
+                            requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
+                        }
+                        .setNegativeButton(getString(R.string.no_permission)) { dialog, _ ->
+                            AlertDialog.Builder(it)
+                                .setTitle(getString(R.string.contacts_permission_dialog_title))
+                                .setMessage(getString(R.string.contacts_permission_dialog_denied_description))
+                                .setPositiveButton(getString(R.string.ok)) { dialogExplanation, _ -> dialogExplanation.dismiss() }
+                                .create()
+                                .show()
+                            dialog.dismiss()
+                        }
+                        .create()
+                        .show()
+                }
+                else -> {
+                    requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
+                }
+            }
+        }
+    }
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            requestContactsList()
+        } else {
+            AlertDialog.Builder(requireContext())
+                .setTitle(getString(R.string.contacts_permission_dialog_title))
+                .setMessage(getString(R.string.contacts_permission_dialog_denied_description))
+                .setPositiveButton(getString(R.string.no_permission)) { dialogExplanation, _ -> dialogExplanation.dismiss() }
+                .create()
+                .show()
+        }
+    }
+
 }

@@ -27,4 +27,11 @@
     <string name="city_picture" tools:ignore="TypographyDashes">https://freepngimg.com/thumb/save_electricity/33173-4-save-electricity-picture.png</string>
     <string name="loading_picture" tools:ignore="TypographyDashes">https://freepngimg.com/thumb/cloud_server/8-2-cloud-server-transparent.png</string>
     <string name="failed_picture" tools:ignore="TypographyDashes">https://freepngimg.com/thumb/fail_stamp/5-2-fail-stamp-png-image.png</string>
+    <string name="contacts">Contacts</string>
+    <string name="contacts_permission_dialog_title">Contacts read permission required</string>
+    <string name="contacts_permission_dialog_description">We need permission to read your contacts (names and phone numbers) for education reason, they only be used to display as list</string>
+    <string name="give_permission">Give permission</string>
+    <string name="no_permission">Don\'t</string>
+    <string name="contacts_permission_dialog_denied_description">You don\'t give permission to read your contacts, so poor students will fail their homework :(</string>
+    <string name="ok">@android:string/ok</string>
 </resources>

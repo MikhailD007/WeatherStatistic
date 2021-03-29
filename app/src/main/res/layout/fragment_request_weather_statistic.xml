@@ -69,6 +69,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchPlaceTextInputLayout"/>  <!-- Request stat button -->
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/contactsMaterialButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/contacts"
+        android:layout_margin="@dimen/small_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchPlaceTextInputLayout"/>  <!-- Request stat button -->
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="0dp"

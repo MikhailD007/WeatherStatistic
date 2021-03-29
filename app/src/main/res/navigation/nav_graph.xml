@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_requestWeatherStatisticFragment_to_resultWeatherStatisticFragment_from_api"
             app:destination="@id/resultWeatherStatisticFragment" />
+        <action
+            android:id="@+id/action_requestWeatherStatisticFragment_to_contactsListFragment"
+            app:destination="@id/contactsListFragment" />
     </fragment>
     <fragment
         android:id="@+id/resultWeatherStatisticFragment"
@@ -25,4 +28,9 @@
             android:name="requestHistory"
             app:argType="org.vimteam.weatherstatistic.domain.models.RequestHistory" />
     </fragment>
+    <fragment
+        android:id="@+id/contactsListFragment"
+        android:name="org.vimteam.weatherstatistic.ui.fragments.ContactsListFragment"
+        android:label="fragment_contacts_list"
+        tools:layout="@layout/fragment_contacts_list" />
 </navigation>
