@@ -3,7 +3,6 @@ package org.vimteam.weatherstatistic.ui
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +14,7 @@ import org.vimteam.weatherstatistic.R
 import org.vimteam.weatherstatistic.base.ConnectivityListener
 import org.vimteam.weatherstatistic.databinding.ActivitySingleBinding
 import org.vimteam.weatherstatistic.ui.interfaces.LoadState
+import org.vimteam.weatherstatistic.ui.services.NetworkService
 
 class SingleActivity : AppCompatActivity(), LoadState {
 

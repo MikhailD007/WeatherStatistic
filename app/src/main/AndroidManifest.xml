@@ -15,9 +15,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WeatherStatistic.NoActionBar">
         <service
-            android:name=".ui.NetworkService"
+            android:name=".ui.services.NetworkService"
             android:enabled="true"
             android:exported="false" />
+        <service
+            android:name=".ui.services.CloudMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
 
         <activity android:name=".ui.SingleActivity">
             <intent-filter>

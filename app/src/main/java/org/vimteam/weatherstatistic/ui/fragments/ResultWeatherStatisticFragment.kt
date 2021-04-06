@@ -29,7 +29,7 @@ import org.vimteam.weatherstatistic.domain.contracts.ResultWeatherStatisticContr
 import org.vimteam.weatherstatistic.domain.models.RequestHistory
 import org.vimteam.weatherstatistic.domain.models.WeatherStatistic
 import org.vimteam.weatherstatistic.domain.models.state.ResultWeatherStatisticState
-import org.vimteam.weatherstatistic.ui.NetworkService
+import org.vimteam.weatherstatistic.ui.services.NetworkService
 import org.vimteam.weatherstatistic.ui.interfaces.LoadState
 
 class ResultWeatherStatisticFragment : Fragment() {

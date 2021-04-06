@@ -1,4 +1,4 @@
-package org.vimteam.weatherstatistic.ui
+package org.vimteam.weatherstatistic.ui.services
 
 import android.app.Notification
 import android.app.NotificationChannel
