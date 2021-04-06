@@ -1,3 +1,30 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Weather Statistic</string>
+    <string name="city">City</string>
+    <string name="search_place">Search place for weather statistic</string>
+    <string name="dateFrom">From date</string>
+    <string name="dateTo">To date</string>
+    <string name="request_statistic">Request statistic</string>
+    <string name="obligatory_field">This is obligatory field</string>
+
+    <string name="weather_api_key" translatable="false">MU1Q3QAYQLGX4RJ4DRVQQU4WL</string>
+    <string name="temperature">Temperature</string>
+    <string name="network_available">Network is available</string>
+    <string name="network_unavailable">Network is unavailable</string>
+    <string name="wrong_date">Wrong date</string>
+    <string name="period_restraints">Request period is restrained by %1$d days</string>
+    <string name="dateFrom_later_dateTo">Date From is later than date To</string>
+    <string name="min_temperature">Min temperature</string>
+    <string name="max_temperature">Max temperature</string>
+    <string name="future_date">Cannot request historical data for future dates</string>
+    <string name="idle_state">Waiting for a task</string>
+    <string name="service_name">Weather history service</string>
+    <string name="service_description">Weather history data collect service</string>
+    <string name="exchange_error">Error weather history data collection: %1$s</string>
+    <string name="collecting_data_from_server">Collecting data from server…</string>
+    <string name="request_params">Parameters:\n%1$s\n%2$s-%3$s</string>
+    <string name="request_to_server_in_progress">Request to server in progress…</string>
+    <string name="city_picture" tools:ignore="TypographyDashes">https://freepngimg.com/thumb/save_electricity/33173-4-save-electricity-picture.png</string>
+    <string name="loading_picture" tools:ignore="TypographyDashes">https://freepngimg.com/thumb/cloud_server/8-2-cloud-server-transparent.png</string>
+    <string name="failed_picture" tools:ignore="TypographyDashes">https://freepngimg.com/thumb/fail_stamp/5-2-fail-stamp-png-image.png</string>
 </resources>

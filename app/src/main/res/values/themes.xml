@@ -19,11 +19,11 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.Notes.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar"/>
+    <style name="Theme.WeatherStatistic.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar"/>
 
-    <style name="Theme.Notes.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light"/>
+    <style name="Theme.WeatherStatistic.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light"/>
 
-    <style name="Theme.Notes.ButtonOverlay" parent="ThemeOverlay.MaterialComponents.Light">
+    <style name="Theme.WeatherStatistic.ButtonOverlay" parent="ThemeOverlay.MaterialComponents.Light">
         <item name="android:textColor">@color/gray</item>
     </style>
 </resources>
