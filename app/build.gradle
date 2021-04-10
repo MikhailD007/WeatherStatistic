@@ -27,9 +27,57 @@ android {
         viewBinding true
     }
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
+            versionNameSuffix ".debug"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled true
+            versionNameSuffix ".release"
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        alpha {
+            initWith debug
+            versionNameSuffix ".alpha"
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    signingConfigs {
+        debug {
+            if (project.hasProperty("keys.repo")) {
+                def projectPropsFile = file(project.property("keys.repo") + "marshalone.properties")
+                if (projectPropsFile.exists()) {
+                    Properties props = new Properties()
+                    props.load(new FileInputStream(projectPropsFile))
+                    storeFile file(file(project.property("keys.repo") + "" + props['STORE_FILE']))
+                    storePassword props['STORE_PASS']
+                    keyAlias props['ALIAS']
+                    keyPassword props['KEY_PASS']
+                }
+            } else {
+                println "======================================================="
+                println "[ERROR] - Please configure debug-compilation environment - e.g. in ~/.signing directory"
+                println "======================================================="
+            }
+        }
+
+        release {
+            if (project.hasProperty("keys.repo")) {
+                def projectPropsFile = file(project.property("keys.repo") + "marshalone.properties")
+                if (projectPropsFile.exists()) {
+                    Properties props = new Properties()
+                    props.load(new FileInputStream(projectPropsFile))
+                    storeFile file(file(project.property("keys.repo") + "" + props['STORE_FILE']))
+                    storePassword props['STORE_PASS']
+                    keyAlias props['ALIAS']
+                    keyPassword props['KEY_PASS']
+                }
+            } else {
+                println "======================================================="
+                println "[ERROR] - Please configure release-compilation environment - e.g. in ~/.signing directory"
+                println "======================================================="
+            }
         }
     }
     compileOptions {
